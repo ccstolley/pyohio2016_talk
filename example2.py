@@ -29,6 +29,7 @@ class WorkerPool(object):
             job = self.workq.get()
             result = fetch_data(job)
             if result is not None:
+                self.workq.task_done()
                 self.resultq.put(result)
 
 
@@ -37,4 +38,4 @@ def fetch_data(job):
 
 
 wp = WorkerPool()
-print(wp.execute([str(i) for i in range(4000)]))
+print(wp.execute([str(i) for i in range(2000)]))
