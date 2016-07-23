@@ -1,0 +1,87 @@
+Advanced Python Debugging
+Techniques Using GDB
+
+About Me:
+   I am Colin Stolley 
+   I work at Sprout Social in Chicago, IL
+   (ask me afterward if you'd like to learn more)
+
+If you're lucky, your program
+crashes when it hits a bug.
+
+Many times, I'm not lucky.
+
+Some bugs only occur under
+unusual or difficult to
+reproduce circumstances.
+
+Almost always in production
+\ 
+At 3:00 am on a Tuesday ☺
+
+Debugging live python programs is hard.
+
+Logging / print statements
+\ 
+PDB
+\ 
+Remote Debuggers
+
+Must have:
+ • code instrumentation in place
+   before the bug occurs
+ • errors which are readily
+   reproducible
+
+This is not feasible for
+many types of bugs.
+
+GDB - The GNU Debugger
+
+(° ͜ʖ °)
+
+GDB can attach to any running
+process, including the python
+interpreter.
+
+GDB 7 has built-in python integrations.
+
+The rub:
+You must have debugging symbols.
+
+Stripped binaries are useless.
+
+ • gcc -g
+ • apt-get install python-dbg libpython-dbg
+
+This goes for any C extensions too!
+
+For processes that aren't your descendants:
+ • sysctl kern.global_ptrace=1 (openbsd)
+\ 
+For processes that aren't yours:
+ • get root
+
+But my production server doesn't
+have debug symbols or GDB.
+
+If binary versions are the same,
+you can drop a core on machine A
+and debug on machine B.
+
+ (gdb) gcore debug_corefile
+
+Basic Approach
+1) gdb -p <pid> <path to python interpreter>
+2) info threads
+3) bt
+4) thread 2 ...
+
+Let's see some examples
+# The socket timeout example
+# The queue example
+# The ctypes segfault example
+# Thread deadlock example
+
+# CFLAGS=-g STRIPPROG="echo" STRIPCMD="echo" make install
+
