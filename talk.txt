@@ -89,11 +89,11 @@ Typical Debugging Session:
 Let's see some examples
 
 Example 1:
-* HTTP polling lock-ups
+ • HTTP polling lock-ups
 #The socket timeout example
 
 Example 2:
-* Job queue lock-ups 
+ • Job queue lock-ups 
 #The queue example
 
 Example 3:
