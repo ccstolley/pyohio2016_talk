@@ -2,8 +2,8 @@ Advanced Python Debugging
 Techniques Using GDB
 
 About Me:
-   I am Colin Stolley 
-   I work at Sprout Social in Chicago, IL
+   My name is Colin Stolley
+   I work at Sprout Social in Chicago, Illinois
    (ask me afterward if you'd like to learn more)
 
 If you're lucky, your program
@@ -59,7 +59,7 @@ They can be embedded in binaries
 This goes for any C extension modules too!
 
 For processes that aren't your descendants:
- • sysctl kern.global_ptrace=1 (openbsd)
+ • sysctl kern.global_ptrace=1 (OpenBSD)
 \ 
 For processes that aren't yours:
  • get root
@@ -80,33 +80,94 @@ Or send a SIGQUIT or SIGSEGV
 You will also need python-gdb.py.
   aka cpython/Tools/gdb/libpython.py
 
+GDB basics
+
+Get a core file:
+ • gcore
+
+Stack Backtrace:
+ • py-bt or py-bt-full
+ • bt
+
+Move up and down the call stack:
+ • py-up
+ • py-down
+
+Show local variables in the stack
+frame:
+ • py-locals
+ • py-print
+
+Show surrounding python source:
+ • py-list
+
+Show all threads:
+ • info threads
+
+Debug thread 3:
+ • thread 3
+
+Get stack traces for all threads:
+ • thread apply all py-bt
+
 Typical Debugging Session:
 1) gdb -p <pid> python
 2) info threads
 3) py-bt
-4) thread 2 ...
+4) thread 2
+ ...
 
-Let's see some examples
+Let's see some examples!
 
 Example 1:
  • HTTP polling lock-ups
-#The socket timeout example
+
+ • Given a batch of ids,
+   fetch data over HTTP
+   for each.
+ • Parallelize to increase
+   throughput.
 
 Example 2:
  • Job queue lock-ups 
-#The queue example
+
+ • Fill a queue with work.
+ • Spawn a bunch of threads to
+   consume until work is gone.
 
 Example 3:
-* ctypes gone bad
-#The ctypes segfault example
+ • ctypes gone bad
+
+ • Expose libcrypto C functions
+   to Python using ctypes.
 
 Example 4:
-* classic thread deadlock
-# Thread deadlock example
+ • classic thread deadlock
 
+ • Given a pool of threads that
+   might read or write, use
+   locks to serialize writes.
+ • Allow multiple reads to
+   execute concurrently.
+
+# to build python port without stripping debug symbols:
 # CFLAGS=-g STRIPPROG="echo" STRIPCMD="echo" make install
 
+In conclusion
+
+GDB is a sophisticated tool.
+\
+Use it!
+
+Resist the temptation to restart
+and fix it later or blame it on
+ghosts or solar flares.
+\
+Find out what's going on! You might
+learn new things AND improve your
+code.
 
 Thanks!
 
-All materials available at github.com/ccstolley/pyohio2016_talk
+All materials available at:
+github.com/ccstolley/pyohio2016_talk
