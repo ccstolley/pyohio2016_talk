@@ -1,3 +1,7 @@
+"""
+This is a bad http server simulator. It will occasionally fail to
+return a response after connect.
+"""
 import time
 import json
 from socketserver import ThreadingMixIn
@@ -22,11 +26,11 @@ class BadHandler(BaseHTTPRequestHandler):
         self.server.req_count += 1
         if self.server.busted and \
            self.server.req_count % (200 + random.randint(-50, 50)) == 0:
-            print("*** OH SHIT ITS BUSTED!***")
+            log.error("*** OH BANANAS ITS BUSTED ***")
             time.sleep(24*60*60)
-        time.sleep(0.2)
+        time.sleep(0.1)
         self.send_response(200)
-        self.send_header('Content-type','application/json')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
         self.wfile.write(bytes(
             json.dumps({'busted': self.server.busted,
@@ -43,4 +47,3 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 
 server = ThreadedHTTPServer(('localhost', 9999), BadHandler)
 server.serve_forever()
-

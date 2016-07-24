@@ -1,9 +1,11 @@
 """
+An example of ctypes that handles bad inputs poorly.
+
 Portions of this code were lifted (with light editing) from the
 py-chef project at:
 https://github.com/coderanger/pychef/blob/master/chef/rsa.py
 """
-from ctypes import *
+from ctypes import CDLL, c_int, c_void_p, c_ulong, create_string_buffer
 from ctypes.util import find_library
 
 libcrypto = CDLL(find_library('crypto'))
@@ -29,7 +31,7 @@ RSA_generate_key.argtypes = [c_int, c_ulong, c_void_p, c_void_p]
 RSA_generate_key.restype = c_void_p
 
 
-class Key(object):
+class Key:
     """An OpenSSL RSA key."""
 
     def __init__(self):

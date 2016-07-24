@@ -1,8 +1,11 @@
-import requests
+"""
+An example of a poller that is not robust in the face of a slow or
+unreliable server.
+"""
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import logging
 import time
-import atexit
+import requests
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
@@ -14,7 +17,8 @@ class Poller:
     def poll(self, jobs):
         return {job: self.pool.submit(self.fetch, job) for job in jobs}
 
-    def fetch(self, job):
+    @staticmethod
+    def fetch(job):
         url = 'http://localhost:9999/{}'.format(job)
         starttime = time.time()
         result = requests.get(url).json()

@@ -1,7 +1,10 @@
+"""
+An example of a worker pool class that contains a race condition.
+"""
 from threading import Thread
 import queue
 
-class WorkerPool(object):
+class WorkerPool:
 
     def __init__(self):
         self.resultq = queue.Queue()
@@ -10,7 +13,7 @@ class WorkerPool(object):
     def execute(self, jobs):
         for job in jobs:
             self.workq.put_nowait(job)
-        threads = [Thread(target=self._worker) for i in range(10)]
+        threads = [Thread(target=self._worker) for _ in range(10)]
         for t in threads:
             t.isDaemon = True
             t.start()
