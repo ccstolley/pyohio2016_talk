@@ -55,14 +55,19 @@ They can be embedded in binaries
 
  • gcc -g
  • apt-get install python-dbg libpython-dbg
+ • yum install python-dbg
 
 This goes for any C extension modules too!
 
 For processes that aren't your descendants:
  • sysctl kern.global_ptrace=1 (OpenBSD)
-\ 
+ • sysctl kernel.yama.ptrace_scope=0 (Linux)
+   (if you have a YAMA-enabled kernel)
+ • DON'T enable these in production, they have
+   serious security implications!
+
 For processes that aren't yours:
- • get root
+ • get su/sudo/doas access
 
 What if my production server doesn't
 have debug symbols or GDB?
@@ -74,41 +79,49 @@ machine A and debug on machine B.
  (gdb) gcore debug_corefile
 
 Or send a SIGQUIT or SIGSEGV
+ (terminates process)
 
  $ kill -SEGV 4567
 
 You will also need python-gdb.py.
   aka cpython/Tools/gdb/libpython.py
 
+I put a python3.4-gdb.py in my
+virtual environment bin/ directory.
+\
+(when in doubt, strace/ktrace gdb!)
+
 GDB basics
 
 Get a core file:
- • gcore
+ (gdb) gcore
 
 Stack Backtrace:
- • py-bt or py-bt-full
- • bt
+ (gdb) py-bt
+ (gdb) py-bt-full
+ (gdb) bt
 
-Move up and down the call stack:
- • py-up
- • py-down
+Move up and down the
+call stack:
+ (gdb) py-up
+ (gdb) py-down
 
-Show local variables in the stack
-frame:
- • py-locals
- • py-print
+Show local variables in the
+stack frame:
+ (gdb) py-locals
+ (gdb) py-print
 
 Show surrounding python source:
- • py-list
+ (gdb) py-list
 
 Show all threads:
- • info threads
+ (gdb) info threads
 
 Debug thread 3:
- • thread 3
+ (gdb) thread 3
 
 Get stack traces for all threads:
- • thread apply all py-bt
+ (gdb) thread apply all py-bt
 
 Typical Debugging Session:
 1) gdb -p <pid> python
@@ -117,7 +130,10 @@ Typical Debugging Session:
 4) thread 2
  ...
 
-Let's see some examples!
+Let's see some actual,
+real-world examples!
+
+(simplified for brevity's sake)
 
 Example 1:
  • HTTP polling lock-ups
