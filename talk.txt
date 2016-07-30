@@ -55,7 +55,7 @@ They can be embedded in binaries
 
  • gcc -g
  • apt-get install python-dbg libpython-dbg
- • yum install python-dbg
+ • yum install python-debuginfo
 
 This goes for any C extension modules too!
 
@@ -89,7 +89,9 @@ You will also need python-gdb.py.
 I put a python3.4-gdb.py in my
 virtual environment bin/ directory.
 \
-(when in doubt, strace/ktrace gdb!)
+when in doubt, use:
+    source /path/to/libpython.py
+in your .gdbinit
 
 GDB basics
 
@@ -138,9 +140,8 @@ real-world examples!
 Example 1:
  • HTTP polling lock-ups
 
- • Given a batch of ids,
-   fetch data over HTTP
-   for each.
+ • Repeatedly fetch data from
+   a bunch of urls.
  • Parallelize to increase
    throughput.
 

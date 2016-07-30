@@ -25,7 +25,7 @@ class BadHandler(BaseHTTPRequestHandler):
             self.server.busted = not self.server.busted
         self.server.req_count += 1
         if self.server.busted and \
-           self.server.req_count % (200 + random.randint(-50, 50)) == 0:
+                self.server.req_count % (200 + random.randint(-50, 50)) == 0:
             log.error("*** OH BANANAS ITS BUSTED ***")
             time.sleep(24*60*60)
         time.sleep(0.1)
