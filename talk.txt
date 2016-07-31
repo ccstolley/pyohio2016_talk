@@ -76,6 +76,9 @@ If lib and binary versions are the
 same, you can drop a core on
 machine A and debug on machine B.
 
+Make sure your python code
+is in the same path.
+
  (gdb) gcore debug_corefile
 
 Or send a SIGQUIT or SIGSEGV
@@ -107,14 +110,19 @@ Move up and down the
 call stack:
  (gdb) py-up
  (gdb) py-down
+ (gdb) up
+ (gdb) down
 
 Show local variables in the
 stack frame:
  (gdb) py-locals
  (gdb) py-print
+ (gdb) info locals
+ (gdb) info args
 
 Show surrounding python source:
  (gdb) py-list
+ (gdb) list
 
 Show all threads:
  (gdb) info threads
